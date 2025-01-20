@@ -1,10 +1,13 @@
+
+
 # Variablen generieren
 
 # Personen im Haushalt
   # Annahmen: 
     # Wenn Missing bei Ü17: 1; wenn 0 bei Ü17: ebenfalls 1 (diskussionswürdig).
     # Wenn Missing bei U18: 0
-    
+Doku$generate <- NULL    
+
 dat_long <- 
   dat_long %>% 
   mutate(teilnahme_welle = if_else(is.na(geschlecht), 0, 1))
@@ -20,28 +23,28 @@ dat_long <-
         Welle %in% c(1,3:4) & !is.na(alter) & phh_mp_ue18 == -8 ~ -8, 
         Welle %in% c(1,3:4) & !is.na(alter) & is.na(phh_mp_ue18) ~ 1,
         Welle %in% c(1,3:4) & !is.na(alter) & phh_mp_ue18 >= 0 ~ phh_mp_ue18,
-        Welle %in% c(5,7:12) & !is.na(alter) & w5_phh_mp_ue17 == -8 ~ -8,
-        Welle %in% c(5,7:12) & !is.na(alter) & is.na(w5_phh_mp_ue17) ~ 1,
-        Welle %in% c(5,7:12) & !is.na(alter) & w5_phh_mp_ue17 > 0 ~ w5_phh_mp_ue17,
-        Welle %in% c(5,7:12) & !is.na(alter) & w5_phh_mp_ue17 == 0 ~ 1
+        Welle %in% c(5,7:w) & !is.na(alter) & w5_phh_mp_ue17 == -8 ~ -8,
+        Welle %in% c(5,7:w) & !is.na(alter) & is.na(w5_phh_mp_ue17) ~ 1,
+        Welle %in% c(5,7:w) & !is.na(alter) & w5_phh_mp_ue17 > 0 ~ w5_phh_mp_ue17,
+        Welle %in% c(5,7:w) & !is.na(alter) & w5_phh_mp_ue17 == 0 ~ 1
       ),
     hhgr_ue13u18_gen = 
       case_when(
         Welle %in% c(1,3:4) & !is.na(alter) & phh_mp_ue13u18 == -8 ~ -8,
         Welle %in% c(1,3:4) & !is.na(alter) & is.na(phh_mp_ue13u18) ~ 0,
         Welle %in% c(1,3:4) & !is.na(alter) & phh_mp_ue13u18 >= 0 ~ phh_mp_ue13u18,
-        Welle %in% c(5,7:12) & !is.na(alter) & w5_phh_mp_ue13u18 == -8 ~ -8,
-        Welle %in% c(5,7:12) & !is.na(alter) & is.na(w5_phh_mp_ue13u18) ~ 0,
-        Welle %in% c(5,7:12) & !is.na(alter) & w5_phh_mp_ue13u18 >= 0 ~ w5_phh_mp_ue13u18
+        Welle %in% c(5,7:w) & !is.na(alter) & w5_phh_mp_ue13u18 == -8 ~ -8,
+        Welle %in% c(5,7:w) & !is.na(alter) & is.na(w5_phh_mp_ue13u18) ~ 0,
+        Welle %in% c(5,7:w) & !is.na(alter) & w5_phh_mp_ue13u18 >= 0 ~ w5_phh_mp_ue13u18
       ),
     hhgr_u14_gen = 
       case_when(
         Welle %in% c(1,3:4) & !is.na(alter) & phh_mp_u14 == -8 ~ -8,
         Welle %in% c(1,3:4) & !is.na(alter) & (is.na(phh_mp_u14)) ~ 0,
         Welle %in% c(1,3:4) & !is.na(alter) & phh_mp_u14 >= 0 ~ phh_mp_u14,
-        Welle %in% c(5,7:12) & !is.na(alter) & w5_phh_mp_u14 == -8 ~ -8,
-        Welle %in% c(5,7:12) & !is.na(alter) & is.na(w5_phh_mp_u14) ~ 0,
-        Welle %in% c(5,7:12) & !is.na(alter) & w5_phh_mp_u14 >= 0 ~ w5_phh_mp_u14
+        Welle %in% c(5,7:w) & !is.na(alter) & w5_phh_mp_u14 == -8 ~ -8,
+        Welle %in% c(5,7:w) & !is.na(alter) & is.na(w5_phh_mp_u14) ~ 0,
+        Welle %in% c(5,7:w) & !is.na(alter) & w5_phh_mp_u14 >= 0 ~ w5_phh_mp_u14
       ),
     hhgr_n_gen = 
       case_when(
@@ -80,17 +83,18 @@ dat_long <-
 # Klassenmittelwerte (Achtung: Welle 1 kein Individualeinkommen; deshalb keine Missing-Übertragung)
 hh_inc_gen = 
   case_when(
-    hh_income == -8 | w2_hh_income == -8  | w3_hh_income == -8 ~ -8,
-  hh_income == 1 | w2_hh_income == 1  | w3_hh_income == 1 ~ 400,
-  hh_income == 2 | w2_hh_income == 2  | w3_hh_income == 2 ~ 700,
-  hh_income == 3 | w2_hh_income == 3  | w3_hh_income == 3 ~ 1100,
-  hh_income == 4 | w2_hh_income == 4  | w3_hh_income == 4 ~ 1400,
-  hh_income == 5 | w2_hh_income == 5  | w3_hh_income == 5 ~ 1600,
-  hh_income == 6 | w2_hh_income == 6  | w3_hh_income == 6 ~ 1850,
-  hh_income == 7 | w2_hh_income == 7  | w3_hh_income == 7 ~ 2300,
-  hh_income == 8 | w2_hh_income == 8  | w3_hh_income == 8 ~ 2900,
-  hh_income == 9 | w2_hh_income  == 9 | w3_hh_income %in% 9:10 ~ 3850,
-  hh_income == 10 | w2_hh_income %in% 10:11 | w3_hh_income %in% 11:12 ~ 5500 # wesentliche Änderung
+    hh_income == -8 | w2_hh_income == -8  | 
+      w3_hh_income == -8 | w13_hh_income == -8 ~ -8,
+  hh_income == 1 | w2_hh_income == 1  | w3_hh_income == 1 | w13_hh_income == 1 ~ 400,
+  hh_income == 2 | w2_hh_income == 2  | w3_hh_income == 2 | w13_hh_income == 2 ~ 700,
+  hh_income == 3 | w2_hh_income == 3  | w3_hh_income == 3 | w13_hh_income == 3 ~ 1100,
+  hh_income == 4 | w2_hh_income == 4  | w3_hh_income == 4 | w13_hh_income == 4 ~ 1400,
+  hh_income == 5 | w2_hh_income == 5  | w3_hh_income == 5 | w13_hh_income == 5 ~ 1600,
+  hh_income == 6 | w2_hh_income == 6  | w3_hh_income == 6 | w13_hh_income == 6 ~ 1850,
+  hh_income == 7 | w2_hh_income == 7  | w3_hh_income == 7 | w13_hh_income == 7 ~ 2300,
+  hh_income == 8 | w2_hh_income == 8  | w3_hh_income == 8 | w13_hh_income == 8 ~ 2900,
+  hh_income == 9 | w2_hh_income  == 9 | w3_hh_income %in% 9:10   | w13_hh_income %in% 9:10 ~ 3850,
+  hh_income == 10 | w2_hh_income %in% 10:11 | w3_hh_income %in% 11:12 | w13_hh_income %in% 11:14 ~ 5500 # wesentliche Änderung
 ), # Klassengrenzen
 hh_inc_vor_gen = 
   case_when(
@@ -106,8 +110,8 @@ hh_inc_vor_gen =
     hh_income_vor %in% 9:10  ~ 3850,
     hh_income_vor %in% 11:12 ~ 5500
   ),
-hh_inc_aeq_gen = if_else(hh_inc_gen > 0 & oecd_weight_gen > 0, hh_inc_gen/oecd_weight_gen, hh_inc_gen),
-hh_inc_vor_aeq_gen = if_else(hh_inc_vor_gen > 0 & oecd_weight_gen > 0, hh_inc_vor_gen/oecd_weight_gen, hh_inc_vor_gen),
+hh_inc_aeq_gen = if_else(hh_inc_gen > 0 & oecd_weight_gen > 0, hh_inc_gen/oecd_weight_gen, -8),
+hh_inc_vor_aeq_gen = if_else(hh_inc_vor_gen > 0 & oecd_weight_gen > 0, hh_inc_vor_gen/oecd_weight_gen, -8),
 )
 
 dat_long <- 
@@ -192,7 +196,7 @@ vignetten <-
     v_index = 1:192) %>% 
   unite(volltext, Text1:Text6, remove=F) %>% 
   select(seq(1,13, by=2)) %>% 
-  mutate(across(is.character, ~str_trim(.)))
+  mutate(across(where(is.character), ~str_trim(.)))
 
 
 dat_long <- 
@@ -218,6 +222,32 @@ dat_long <-
     vgn_volltext2 = volltext2
   )
 
+# Servicevariablen
+dat_long <- 
+  dat_long %>% 
+  mutate(
+    altgrup_gen =
+      labelled_spss(
+      case_when(
+        alter < 25 & alter >= 0 ~ 1,
+        alter >= 25 & alter < 35 ~ 2,
+        alter >= 35 & alter < 45 ~ 3,
+        alter >= 45 & alter < 55 ~ 4,
+        alter >= 55 & alter < 65 ~ 5,
+        alter >= 65 ~ 6
+      ),
+      labels = setNames(1:6,  
+                        c(
+                          "(1) 16 bis 24 Jahre",
+                          "(2) 25 bis 34 Jahre",
+                          "(3) 35 bis 44 Jahre",
+                          "(4) 45 bis 54 Jahre",
+                          "(5) 55 bis 64 Jahre",
+                          "(6) 65 Jahre und älter"
+                        )), 
+      label="Alter gruppiert, generiert" 
+  )
+  )
 
 
 
@@ -403,4 +433,7 @@ Doku$generate <- names(dat_long)[(which(str_detect(names(dat_long), "migr_4"))+1
   #if(!class(dat_long[[b]])[1] %in% c("character", "Date")) class(dat[[b]]) <- c("haven_labelled", "vctrs_vctr", "double")
   
 #}
+
+
+
 

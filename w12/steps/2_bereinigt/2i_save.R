@@ -1,7 +1,7 @@
 dir.create("output/data/bereinigt", showWarnings=F)
 
-write_sav(dat_long, "output/data/bereinigt/epb_1-12_long_bereinigt_v1-1.sav")
-write_dta(dat_long, "output/data/bereinigt/epb_1-12_long_bereinigt_v1-1.dta")
+write_sav(dat_long, "output/data/bereinigt/epb_1-12_long_bereinigt_v1-3.sav")
+write_dta(dat_long, "output/data/bereinigt/epb_1-12_long_bereinigt_v1-3.dta")
 
 dat_wide <-
   dat_long %>% 
@@ -16,7 +16,7 @@ dat_wide <-
   dat_wide %>% 
   select(which(map_int(dat_wide, function(x) sum(x >= -8)) != 0))
 
-write_sav(dat_wide, "output/data/bereinigt/epb_1-12_wide_bereinigt_v1-1.sav")
-write_dta(dat_wide, "output/data/bereinigt/epb_1-12_wide_bereinigt_v1-1.dta")
+write_sav(dat_wide, "output/data/bereinigt/epb_1-12_wide_bereinigt_v1-3.sav")
+write_dta(dat_wide, "output/data/bereinigt/epb_1-12_wide_bereinigt_v1-3.dta")
 
 save(Doku, file=paste0("output/", Sys.Date(), "_Doku.RData"))
