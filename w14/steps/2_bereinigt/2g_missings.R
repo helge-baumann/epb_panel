@@ -67,26 +67,28 @@ dat_long <-
 # Attributes
 for(b in names(dat_long)) {
   
-  if(length(attributes(dat_long[[b]])$labels) > 0) {
-    if(any(dat_long[[b]] == -12)) {
-      attributes(dat_long[[b]])$labels <- setNames(
-        c(-12,attributes(dat_long[[b]])$labels), 
-        c("Frage wurde in Welle nicht gestellt", names(attributes(dat_long[[b]])$labels))
-      )
-    }
-    
-    if(any(dat_long[[b]] == -11)) {
-      attributes(dat_long[[b]])$labels <- setNames(
-        c(-11,attributes(dat_long[[b]])$labels), 
-        c("Person hat an Welle nicht teilgenommen", names(attributes(dat_long[[b]])$labels))
-      )
-    }
-    
-    if(any(dat_long[[b]] == -10)) {
-      attributes(dat_long[[b]])$labels <- setNames(
-        c(-10,attributes(dat_long[[b]])$labels), 
-        c("Missing durch Filterführung (oder keine Angabe)", names(attributes(dat_long[[b]])$labels))
-      )
-    }
+  if(length(attributes(dat_long[[b]])$labels) ==  0) attributes(dat_long[[b]])$labels <- NULL
+  
+  if(!any(class(dat_long[[b]]) == "character")) {
+  if(any(dat_long[[b]] == -12, na.rm=T)) {
+    attributes(dat_long[[b]])$labels <- setNames(
+      c(-12,attributes(dat_long[[b]])$labels), 
+      c("Frage wurde in Welle nicht gestellt", names(attributes(dat_long[[b]])$labels))
+    )
+  }
+  
+  if(any(dat_long[[b]] == -11, na.rm=T)) {
+    attributes(dat_long[[b]])$labels <- setNames(
+      c(-11,attributes(dat_long[[b]])$labels), 
+      c("Person hat an Welle nicht teilgenommen", names(attributes(dat_long[[b]])$labels))
+    )
+  }
+  
+  if(any(dat_long[[b]] == -10, na.rm=T)) {
+    attributes(dat_long[[b]])$labels <- setNames(
+      c(-10,attributes(dat_long[[b]])$labels), 
+      c("Missing durch Filterführung (oder keine Angabe)", names(attributes(dat_long[[b]])$labels))
+    )
+  }
   }
 }

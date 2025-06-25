@@ -1,15 +1,11 @@
 #################################
 # Paneldatensatz erzeugen
-# Hier Welle 1-13
+# Hier Welle 1-14; 2-0
 # Helge Emmler
-# 26.02.2025 (nach ISCO-Vercodung)
+# 08.05.2025 (nach Nachwahlerhebung)
 #################################
 
-# Achtung: 
-# Zweitstimme und Sonntagsfrage inkonsistent! (Würde ungültig/nicht wählen) - fertig?
-# Variable "stichprobe" inkonsistent (sollte vollständig sein)
-# # ostwest' fehlt (zwei-drei Ausführungen)
-
+# SUF noch nicht erzeugt. 
 
 # Präambel----
 if(!"pacman" %in% installed.packages()[,1]) install.packages("pacman")
@@ -19,17 +15,17 @@ p_load(haven, dplyr, tidyr, stringr, purrr, openxlsx, labelled, tibble, DT,
 
 Doku <- list()
 # um welche Welle handelt es sich (Maximum)
-w <- 13
+w <- 14
 
 # Um welche Version handelt es sich?
-v <- "v1-2"
+v <- "v2-0"
 
 map(dir("functions", full.names=T), source)
 dir.create("steps", showWarnings=F)
 
 # für Doku: Steps nur durchlaufen lassen, wenn Daten neu generiert werden sollen. 
 files <- dir("steps", full.names=T, recursive=T)
-files <- files[str_detect(files, "/1|/2_")]
+files <- files[str_detect(files, "/1|/2_")][1:16]
 map(files, source)
 
 # Hier Schritte für Doku (Anweisung für .Rnw)

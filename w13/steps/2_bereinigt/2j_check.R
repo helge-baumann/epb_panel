@@ -32,5 +32,7 @@ dat_long %>%
   
   ggplot(aes(x=Abweichung, y=`%`)) +
   geom_col() + xlim(c(-10,10))
-  
+
+dat_long %>% filter(Welle == 13) %>% mutate(isco = case_when(isco08 == -8 ~ 0, isco08 == -101 ~ 1, isco08 < -101 ~ 2, isco08 >= 0 ~ 3, isco08 %in% -10:-12 ~ isco08)) %>% group_by(isco) %>%  count() %>% 
+  write.csv2("output/check_isco.csv", fileEncoding="CP1252")
   

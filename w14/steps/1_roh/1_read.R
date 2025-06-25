@@ -44,12 +44,12 @@ namen_panel <-
 namen_panel <- namen_panel[, c(seq(1,w*2+1,2), w*2+2)]
 names(namen_panel) <- c(paste0("n", 1:w), "newname", "newlabel")
 
-# return names and labs welle 11+12
-# for(i in 13) {
-#  names_labs <- map(datenbasis[[i]], function(x) attributes(x)$label)
-#  write.csv2(enframe(unlist(names_labs)), paste0("./info/names_labs_w", i, ".csv"), 
-#             fileEncoding = "CP1252", row.names=F)
-# }
+# return names and labs welle 14
+ # for(i in 14) {
+ #  names_labs <- map(datenbasis[[i]], function(x) attributes(x)$label)
+ #  write.csv2(enframe(unlist(names_labs)), paste0("./info/names_labs_w", i, ".csv"), 
+ #             fileEncoding = "CP1252", row.names=F)
+ # }
 
 
 
